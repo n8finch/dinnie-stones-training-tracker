@@ -13,19 +13,9 @@
 }
 
 .footer {
-  display: flex;
-  flex: 1;
   padding: 2rem 0;
   border-top: 1px solid #eaeaea;
-  justify-content: center;
-  align-items: center;
-}
-
-.footer a {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-grow: 1;
+  text-align: center;
 }
 
 .title a {
@@ -53,7 +43,16 @@
 .description {
   margin: 4rem 0;
   line-height: 1.5;
-  font-size: 1.5rem;
+  font-size: 1.2rem;
+}
+
+.liftForm {
+    display: flex;
+}
+
+.liftForm input {
+    text-align: center;
+    max-width: 60px;
 }
 
 .code {
@@ -66,10 +65,9 @@
 }
 
 .grid {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: .5fr 1fr;
+  grid-gap: 10px;
   max-width: 800px;
 }
 
