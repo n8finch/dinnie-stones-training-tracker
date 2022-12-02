@@ -1,47 +1,29 @@
 export const handleDate = (date) => {
     console.log('handleDate: ', date )
 }
-const handleFront = (front) => {
+export const handleFront = (front) => {
     console.log('handleFront: ', front )
 }
-const handleBack = (back) => {
+export const handleBack = (back) => {
     console.log('handleBack: ', back )
 }
-const handleTotal = (total) => {
-    console.log('handleTotal: ', total )
+export const handleTotal = (front: number, back: number) : number => {
+    return parseInt(front) + parseInt(back)
 }
-const handleReps = (reps) => {
+export const handleReps = (reps) => {
     console.log('handleReps: ', reps )
 }
-const handleE1RM = (er1m) => {
-    console.log('handleE1RM: ', er1m )
-}
-const handleLocation = (location) => {
-    console.log('handleLocation: ', location )
-}
-
-
-
-
-const getE1RM = ( weight: number, reps: number ): number => {
+export const handleE1RM = (front: number, back: number, reps: number) : number => {
     // (.0333 x Weight x Reps) + Weight = Estimated 1RM
-    let e1RM: number = 0;
-
-    return e1RM;
+    const total = parseInt(front) + parseInt(back)
+    return parseInt( ( .0333 * total * reps ) + total )
+}
+export const handleLocation = (location) => {
+    console.log('handleLocation: ', location )
 }
 
 const validateNumber = (number: number) => {
     let isValid: boolean = false;
 
     return isValid
-}
-
-module.exports = {
-    handleDate,
-    handleFront,
-    handleBack,
-    handleTotal,
-    handleReps,
-    handleE1RM,
-    handleLocation,
 }

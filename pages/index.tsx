@@ -1,13 +1,35 @@
+import { useState, useEffect } from 'react'
 import Head from 'next/head'
 import styles from '../styles/Home.module.css'
 import Footer from './components/footer'
-import { handleDate } from './functions'
 import LiftingForm from './components/lifting-form'
+import { STONE_WEIGHTS } from './data'
+import {
+    handleDate,
+    handleFront,
+    handleBack,
+    handleTotal,
+    handleReps,
+    handleE1RM,
+    handleLocation,
+} from './functions'
 
 
 export default function Home() {
-
     const loggedIn: boolean = true;
+    const maxFront = 355
+    const maxBack = 285
+
+    const [dttLifts, setDttLifts] = useState([]);
+
+    useEffect(() => {
+        const items = JSON.parse(localStorage.getItem('dttLifts'));
+        if (items) {
+            setDttLifts(items);
+        }
+    }, []);
+
+    console.log(dttLifts)
 
     return (
         <div className={styles.container}>
@@ -33,18 +55,20 @@ export default function Home() {
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>415</td>
-                                    <td>319</td>
-                                    <td>734</td>
-                                </tr>
+                                {STONE_WEIGHTS.map((weight, index) => 
+                                    <tr key={index}>
+                                        <td className={`${maxFront >= parseInt(weight.front) ? styles.weightFill : ''}`}>{weight.front}</td>
+                                        <td className={`${maxBack >= parseInt(weight.back) ? styles.weightFill : ''}`}>{weight.back}</td>
+                                        <td>{weight.total}</td>
+                                    </tr>
+                                )}
                             </tbody>
                         </table>
                     </div>
                     <div id="lifts-grid">
                         <p>Record in pounds (lbs) or kilograms (kg)</p>
                         <div>
-                            <LiftingForm/>
+                            <LiftingForm />
                         </div>
 
                         <div>
@@ -62,15 +86,17 @@ export default function Home() {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td>11/11/11</td>
-                                        <td>321</td>
-                                        <td>221</td>
-                                        <td>542</td>
-                                        <td>3</td>
-                                        <td>734</td>
-                                        <td>Gym</td>
-                                    </tr>
+                                        {dttLifts.map((lift, index) => 
+                                            <tr key={index}>
+                                                <td>{lift.date}</td>
+                                                <td>{lift.front}</td>
+                                                <td>{lift.back}</td>
+                                                <td>{handleTotal(lift.front, lift.back)}</td>
+                                                <td>{lift.reps}</td>
+                                                <td>{handleE1RM(lift.front, lift.back, lift.reps)}</td>
+                                                <td>{lift.location}</td>
+                                            </tr>
+                                        )}
                                 </tbody>
                             </table>
                         </div>
