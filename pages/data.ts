@@ -1,3 +1,5 @@
+import { handleTotal, handleE1RM } from "./functions";
+
 export const STONE_WEIGHTS = [
     {
         'front': 415,
@@ -190,3 +192,76 @@ export const STONE_WEIGHTS = [
         'total': 80
     },
 ]
+
+
+const download = function (data) {
+ 
+    // Creating a Blob for having a csv file format
+    // and passing the data with type
+    const blob = new Blob([data], { type: 'text/csv' });
+ 
+    // Creating an object for downloading url
+    const url = window.URL.createObjectURL(blob)
+ 
+    // Creating an anchor(a) tag of HTML
+    const a = document.createElement('a')
+ 
+    // Passing the blob downloading url
+    a.setAttribute('href', url)
+ 
+    // Setting the anchor tag attribute for downloading
+    // and passing the download file name
+    a.setAttribute('download', 'download.csv');
+ 
+    // Performing a download with click
+    a.click()
+}
+ 
+const csvmaker = function (data) {
+ 
+    // Empty array for storing the values
+    let csvRows = [];
+ 
+    // Headers is basically a keys of an
+    // object which is id, name, and
+    // profession
+    const headers = [
+        'Date',
+        'Front',
+        'Back',
+        'Total',
+        'Reps',
+        'E1RM',
+        'Location',
+    ];
+ 
+    // As for making csv format, headers
+    // must be separated by comma and
+    // pushing it into array
+    csvRows.push(headers.join(','));
+ 
+    // Pushing Object values into array
+    // with comma separation
+    for( const lift of data ) {
+        const liftData = [
+            lift.date,
+            lift.front,
+            lift.back,
+            handleTotal(lift.front, lift.back),
+            lift.reps,
+            handleE1RM(lift.front, lift.back, lift.reps),
+            lift.location
+        ]
+
+        const values = liftData.join(',');
+        csvRows.push(values)
+    }
+
+    // Returning the array joining with new line
+    return csvRows.join('\n')
+}
+ 
+export const getLiftsCSV = async function (data: object) {
+    const csvdata = csvmaker(data);
+    download(csvdata);
+}

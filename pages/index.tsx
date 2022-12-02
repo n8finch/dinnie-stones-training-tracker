@@ -5,14 +5,10 @@ import Footer from './components/footer'
 import LiftingForm from './components/lifting-form'
 import { STONE_WEIGHTS } from './data'
 import {
-    handleDate,
-    handleFront,
-    handleBack,
     handleTotal,
-    handleReps,
-    handleE1RM,
-    handleLocation,
+    handleE1RM
 } from './functions'
+import { getLiftsCSV } from './data'
 
 
 export default function Home() {
@@ -32,6 +28,10 @@ export default function Home() {
     for( const lift of dttLifts ) {
         maxFront = (parseInt(lift.front) > maxFront) ? lift.front : maxFront 
         maxBack = (parseInt(lift.back) > maxBack) ? lift.back : maxBack 
+    }
+
+    const handleDownload = () => {
+        getLiftsCSV(dttLifts)
     }
 
     return (
@@ -73,7 +73,9 @@ export default function Home() {
                         <div>
                             <LiftingForm />
                         </div>
-
+                        <div>
+                            <button onClick={handleDownload}>Download</button>
+                        </div>
                         <div>
                             Previous Lifts:
                             <table>
