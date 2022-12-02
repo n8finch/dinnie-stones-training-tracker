@@ -22,6 +22,9 @@ export default function LiftingForm() {
 
         localStorage.setItem('dttLifts', JSON.stringify(dttLifts));
 
+        // Cheating a little...
+        window.location.href = '/';
+
         // Send the data to the server in JSON format.
         // const JSONdata = JSON.stringify(data)
 

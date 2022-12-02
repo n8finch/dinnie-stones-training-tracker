@@ -17,8 +17,6 @@ import {
 
 export default function Home() {
     const loggedIn: boolean = true;
-    const maxFront = 355
-    const maxBack = 285
 
     const [dttLifts, setDttLifts] = useState([]);
 
@@ -29,7 +27,12 @@ export default function Home() {
         }
     }, []);
 
-    console.log(dttLifts)
+    let maxFront: number = 0;
+    let maxBack: number = 0
+    for( const lift of dttLifts ) {
+        maxFront = (parseInt(lift.front) > maxFront) ? lift.front : maxFront 
+        maxBack = (parseInt(lift.back) > maxBack) ? lift.back : maxBack 
+    }
 
     return (
         <div className={styles.container}>
