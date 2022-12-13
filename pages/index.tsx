@@ -32,6 +32,7 @@ export default function Home() {
         maxBack = (parseInt(lift.back) > maxBack) ? lift.back : maxBack;
         frontFill = `${lift.type}Fill`
         backFill = `${lift.type}Fill`
+        console.log(frontFill)
     }
 
     // Handles the submit event on form submit.
@@ -81,6 +82,17 @@ export default function Home() {
         // console.log(result.data)
     }
 
+    const handleDeleteLift = (e) => {
+        const remove = e.target.value;
+        const remainingLifts = dttLifts.filter( (lift, index) => {
+                return parseInt(e.target.value) !== index
+            }
+        )
+        localStorage.setItem('dttLifts', JSON.stringify([ ...remainingLifts ]));
+
+        setDttLifts( remainingLifts );
+    }
+
     const handleDownload = () => {
         getLiftsCSV(dttLifts)
     }
@@ -111,8 +123,8 @@ export default function Home() {
                             <tbody>
                                 {STONE_WEIGHTS.map((weight, index) => 
                                     <tr key={index}>
-                                        <td className={`${maxFront >= parseInt(weight.front) ? frontFill : ''}`}>{weight.front}</td>
-                                        <td className={`${maxBack >= parseInt(weight.back) ? backFill : ''}`}>{weight.back}</td>
+                                        <td className={`${maxFront >= parseInt(weight.front) ? styles[`${frontFill}`] : ''}`}>{weight.front}</td>
+                                        <td className={`${maxBack >= parseInt(weight.back) ? styles[`${backFill}`] : ''}`}>{weight.back}</td>
                                         <td>{weight.total}</td>
                                     </tr>
                                 )}
@@ -153,6 +165,9 @@ export default function Home() {
                                                 <td>{handleE1RM(lift.front, lift.back, lift.reps)}</td>
                                                 <td>{lift.type}</td>
                                                 <td>{lift.location}</td>
+                                                <td>
+                                                    <button value={index} onClick={handleDeleteLift}>🚽</button>
+                                                </td>
                                             </tr>
                                         )}
                                 </tbody>
