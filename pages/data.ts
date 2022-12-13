@@ -211,7 +211,7 @@ const download = function (data) {
  
     // Setting the anchor tag attribute for downloading
     // and passing the download file name
-    a.setAttribute('download', 'download.csv');
+    a.setAttribute('download', 'dinnie-tracker-lifts.csv');
  
     // Performing a download with click
     a.click()
@@ -232,6 +232,7 @@ const csvmaker = function (data) {
         'Total',
         'Reps',
         'E1RM',
+        'Type',
         'Location',
     ];
  
@@ -250,7 +251,8 @@ const csvmaker = function (data) {
             handleTotal(lift.front, lift.back),
             lift.reps,
             handleE1RM(lift.front, lift.back, lift.reps),
-            lift.location
+            lift.type,
+            lift.location,
         ]
 
         const values = liftData.join(',');

@@ -24,10 +24,14 @@ export default function Home() {
     }, []);
 
     let maxFront: number = 0;
-    let maxBack: number = 0
+    let maxBack: number = 0;
+    let frontFill: string = 'lift';
+    let backFill: string = 'lift';
     for( const lift of dttLifts ) {
-        maxFront = (parseInt(lift.front) > maxFront) ? lift.front : maxFront 
-        maxBack = (parseInt(lift.back) > maxBack) ? lift.back : maxBack 
+        maxFront = (parseInt(lift.front) > maxFront) ? lift.front : maxFront ;
+        maxBack = (parseInt(lift.back) > maxBack) ? lift.back : maxBack;
+        frontFill = `${lift.type}Fill`
+        backFill = `${lift.type}Fill`
     }
 
     // Handles the submit event on form submit.
@@ -41,14 +45,14 @@ export default function Home() {
             front: event.target.front.value,
             back: event.target.back.value,
             reps: event.target.reps.value,
-            location: event.target.location.value
+            type: event.target.type.value,
+            location: event.target.location.value,
         }
+
+        localStorage.setItem('dttLifts', JSON.stringify([ data, ...dttLifts ]));
 
         setDttLifts([ data, ...dttLifts ]);
 
-        localStorage.setItem('dttLifts', JSON.stringify(dttLifts));
-
-        
 
         // Send the data to the server in JSON format.
         // const JSONdata = JSON.stringify(data)
@@ -107,8 +111,8 @@ export default function Home() {
                             <tbody>
                                 {STONE_WEIGHTS.map((weight, index) => 
                                     <tr key={index}>
-                                        <td className={`${maxFront >= parseInt(weight.front) ? styles.weightFill : ''}`}>{weight.front}</td>
-                                        <td className={`${maxBack >= parseInt(weight.back) ? styles.weightFill : ''}`}>{weight.back}</td>
+                                        <td className={`${maxFront >= parseInt(weight.front) ? frontFill : ''}`}>{weight.front}</td>
+                                        <td className={`${maxBack >= parseInt(weight.back) ? backFill : ''}`}>{weight.back}</td>
                                         <td>{weight.total}</td>
                                     </tr>
                                 )}
@@ -134,6 +138,7 @@ export default function Home() {
                                         <td>Total</td>
                                         <td>Reps</td>
                                         <td>E1RM</td>
+                                        <td>Type</td>
                                         <td>Location</td>
                                     </tr>
                                 </thead>
@@ -146,6 +151,7 @@ export default function Home() {
                                                 <td>{handleTotal(lift.front, lift.back)}</td>
                                                 <td>{lift.reps}</td>
                                                 <td>{handleE1RM(lift.front, lift.back, lift.reps)}</td>
+                                                <td>{lift.type}</td>
                                                 <td>{lift.location}</td>
                                             </tr>
                                         )}

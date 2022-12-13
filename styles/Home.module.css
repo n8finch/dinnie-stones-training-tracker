@@ -60,8 +60,12 @@
     max-width: 120px;
 }
 
-.weightFill {
+.liftFill {
     background-color: rgb(210, 232, 210);
+}
+
+.carryFill {
+    background-color: rgb(238, 190, 188);
 }
 
 .code {
