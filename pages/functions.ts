@@ -27,3 +27,7 @@ const validateNumber = (number: number) => {
 
     return isValid
 }
+
+export const capitalize = (word: string) => {
+    return word.charAt(0).toUpperCase() + word.slice(1);
+}

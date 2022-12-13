@@ -6,7 +6,8 @@ import LiftingForm from './components/lifting-form'
 import { STONE_WEIGHTS } from './data'
 import {
     handleTotal,
-    handleE1RM
+    handleE1RM,
+    capitalize
 } from './functions'
 import { getLiftsCSV } from './data'
 
@@ -23,16 +24,21 @@ export default function Home() {
         }
     }, []);
 
-    let maxFront: number = 0;
-    let maxBack: number = 0;
-    let frontFill: string = 'lift';
-    let backFill: string = 'lift';
+    let maxLiftFront: number = 0;
+    let maxLiftBack: number = 0;
+    let maxCarryFront: number = 0;
+    let maxCarryBack: number = 0;
+
     for( const lift of dttLifts ) {
-        maxFront = (parseInt(lift.front) > maxFront) ? lift.front : maxFront ;
-        maxBack = (parseInt(lift.back) > maxBack) ? lift.back : maxBack;
-        frontFill = `${lift.type}Fill`
-        backFill = `${lift.type}Fill`
-        console.log(frontFill)
+        if('carry' === lift.type) {
+            maxCarryFront = (parseInt(lift.front) > maxCarryFront) ? lift.front : maxCarryFront ;
+            maxCarryBack = (parseInt(lift.back) > maxCarryBack) ? lift.back : maxCarryBack;
+        }
+
+        if('lift' === lift.type) {
+            maxLiftFront = (parseInt(lift.front) > maxLiftFront) ? lift.front : maxLiftFront ;
+            maxLiftBack = (parseInt(lift.back) > maxLiftBack) ? lift.back : maxLiftBack;
+        }
     }
 
     // Handles the submit event on form submit.
@@ -82,6 +88,26 @@ export default function Home() {
         // console.log(result.data)
     }
 
+    const getWeightFillClass = (weight, side) => {
+        let className = 'noFill';
+        if( maxLiftFront >= parseInt(weight) && 'front' === side ) {
+            className = 'liftFill'
+        }
+        if( maxLiftBack >= parseInt(weight ) && 'back' === side ) {
+            className = 'liftFill'
+        }
+        // Override if necessary.
+        if( maxCarryFront >= parseInt(weight) && 'front' === side ) {
+            className = 'carryFill'
+        }
+        if( maxCarryBack >= parseInt(weight ) && 'back' === side ) {
+            className = 'carryFill'
+        }
+
+
+        return className;
+    }
+
     const handleDeleteLift = (e) => {
         const remove = e.target.value;
         const remainingLifts = dttLifts.filter( (lift, index) => {
@@ -123,8 +149,8 @@ export default function Home() {
                             <tbody>
                                 {STONE_WEIGHTS.map((weight, index) => 
                                     <tr key={index}>
-                                        <td className={`${maxFront >= parseInt(weight.front) ? styles[`${frontFill}`] : ''}`}>{weight.front}</td>
-                                        <td className={`${maxBack >= parseInt(weight.back) ? styles[`${backFill}`] : ''}`}>{weight.back}</td>
+                                        <td className={`${styles[getWeightFillClass(weight.front, 'front')]}`}>{weight.front}</td>
+                                        <td className={`${styles[getWeightFillClass(weight.back, 'back')]}`}>{weight.back}</td>
                                         <td>{weight.total}</td>
                                     </tr>
                                 )}
@@ -163,7 +189,7 @@ export default function Home() {
                                                 <td>{handleTotal(lift.front, lift.back)}</td>
                                                 <td>{lift.reps}</td>
                                                 <td>{handleE1RM(lift.front, lift.back, lift.reps)}</td>
-                                                <td>{lift.type}</td>
+                                                <td>{capitalize(lift.type)}</td>
                                                 <td>{lift.location}</td>
                                                 <td>
                                                     <button value={index} onClick={handleDeleteLift}>🚽</button>
