@@ -7,7 +7,8 @@ import { STONE_WEIGHTS } from './data'
 import {
     handleTotal,
     handleE1RM,
-    capitalize
+    capitalize,
+    clearLiftingForm,
 } from './functions'
 import { getLiftsCSV } from './data'
 
@@ -59,6 +60,8 @@ export default function Home() {
         localStorage.setItem('dttLifts', JSON.stringify([ data, ...dttLifts ]));
 
         setDttLifts([ data, ...dttLifts ]);
+
+        clearLiftingForm();
 
 
         // Send the data to the server in JSON format.
@@ -160,10 +163,10 @@ export default function Home() {
                     <div id="lifts-grid">
                         <p>Record in pounds (lbs) or kilograms (kg)</p>
                         <div>
-                            <LiftingForm handleSubmit={handleSubmit}/>
+                            <button onClick={handleDownload}>Download all lifts.</button>
                         </div>
                         <div>
-                            <button onClick={handleDownload}>Download</button>
+                            <LiftingForm handleSubmit={handleSubmit}/>
                         </div>
                         <div>
                             Previous Lifts:

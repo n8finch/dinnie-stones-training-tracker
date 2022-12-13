@@ -31,3 +31,14 @@ const validateNumber = (number: number) => {
 export const capitalize = (word: string) => {
     return word.charAt(0).toUpperCase() + word.slice(1);
 }
+
+export const clearLiftingForm = () => {
+    Array.from(document.querySelectorAll("input")).forEach(
+        input => (input.value = "")
+    );
+    const liftSelector = document.getElementById("lift-type")
+
+    if( null !== liftSelector ) {
+        liftSelector.value = 'lift';
+    }
+}
