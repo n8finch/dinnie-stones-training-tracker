@@ -24,7 +24,7 @@ interface Lift {
 export default function Home() {
     const loggedIn: boolean = true;
 
-    const [dttLifts, setDttLifts] = useState([]);
+    const [dttLifts, setDttLifts] = useState<object[]>([]);
 
     useEffect(() => {
         const ls: string = localStorage.getItem('dttLifts') || '';
@@ -58,12 +58,12 @@ export default function Home() {
 
         // Get data from the form.
         const data: object = {
-            date: event.target.date.value,
-            front: event.target.front.value,
-            back: event.target.back.value,
-            reps: event.target.reps.value,
-            type: event.target.type.value,
-            location: event.target.location.value,
+            date: event.currentTarget.date.value || '',
+            front: event.currentTarget.front.value || '',
+            back: event.currentTarget.back.value || '',
+            reps: event.currentTarget.reps.value || '',
+            type: event.currentTarget.type.value || '',
+            location: event.currentTarget.location.value || '',
         }
 
         localStorage.setItem('dttLifts', JSON.stringify([ data, ...dttLifts ]));
@@ -100,7 +100,7 @@ export default function Home() {
         // console.log(result.data)
     }
 
-    const getWeightFillClass = (weight, side) => {
+    const getWeightFillClass = (weight: string, side:string ) : string => {
         let className = 'noFill';
         if( maxLiftFront >= parseInt(weight) && 'front' === side ) {
             className = 'liftFill'
@@ -120,10 +120,11 @@ export default function Home() {
         return className;
     }
 
-    const handleDeleteLift = (e) => {
-        const remove = e.target.value;
+    const handleDeleteLift = (e: React.FormEvent<HTMLFormElement>) => {
+        const remove = e.target as HTMLInputElement
+
         const remainingLifts = dttLifts.filter( (lift, index) => {
-                return parseInt(e.target.value) !== index
+                return parseInt(remove.value) !== index
             }
         )
         localStorage.setItem('dttLifts', JSON.stringify([ ...remainingLifts ]));
