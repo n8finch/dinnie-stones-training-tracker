@@ -1,11 +1,11 @@
-export const handleTotal = (front: number, back: number) : number => {
-    return front + back
+export const handleTotal = (front: string, back: string) : number => {
+    return parseInt(front) + parseInt(back);
 }
 
-export const handleE1RM = (front: number, back: number, reps: number) : number => {
+export const handleE1RM = (front: string, back: string, reps: string) : number => {
     // (.0333 x Weight x Reps) + Weight = Estimated 1RM
-    const total = front + back
-    return ( .0333 * total * reps ) + total
+    const total: number = parseInt(front) + parseInt(back)
+    return Math.floor( ( .0333 * total * parseInt(reps) ) + total )
 }
 
 export const capitalize = (word: string) => {

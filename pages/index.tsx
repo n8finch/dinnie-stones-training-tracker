@@ -14,9 +14,9 @@ import { getLiftsCSV } from './data'
 
 interface Lift {
     date: string;
-    front: number;
-    back: number;
-    reps: number;
+    front: string;
+    back: string;
+    reps: string;
     type: string;
     location: string;
 }
@@ -41,13 +41,13 @@ export default function Home() {
 
     for( let lift of dttLifts as Lift[]) {
         if('carry' === lift.type) {
-            maxCarryFront = (lift.front > maxCarryFront) ? lift.front : maxCarryFront ;
-            maxCarryBack = (lift.back > maxCarryBack) ? lift.back : maxCarryBack;
+            maxCarryFront = (parseInt(lift.front) > maxCarryFront) ? parseInt(lift.front) : maxCarryFront ;
+            maxCarryBack = (parseInt(lift.back) > maxCarryBack) ? parseInt(lift.back) : maxCarryBack;
         }
 
         if('lift' === lift.type) {
-            maxLiftFront = (lift.front > maxLiftFront) ? lift.front : maxLiftFront ;
-            maxLiftBack = (lift.back > maxLiftBack) ? lift.back : maxLiftBack;
+            maxLiftFront = (parseInt(lift.front) > maxLiftFront) ? parseInt(lift.front) : maxLiftFront ;
+            maxLiftBack = (parseInt(lift.back) > maxLiftBack) ? parseInt(lift.back) : maxLiftBack;
         }
     }
 
