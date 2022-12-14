@@ -3,14 +3,14 @@ import Head from 'next/head'
 import styles from '../styles/Home.module.css'
 import Footer from './components/footer'
 import LiftingForm from './components/lifting-form'
-import { STONE_WEIGHTS } from './data'
+import { STONE_WEIGHTS } from '../helpers/data'
 import {
     handleTotal,
     handleE1RM,
     capitalize,
     clearLiftingForm,
-} from './functions'
-import { getLiftsCSV } from './data'
+} from '../helpers/functions'
+import { getLiftsCSV } from '../helpers/data'
 
 interface Lift {
     date: string;
