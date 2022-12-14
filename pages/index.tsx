@@ -194,7 +194,7 @@ export default function Home() {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                        {dttLifts.map((lift, index) => 
+                                        {dttLifts.map((lift:any , index) => 
                                             <tr key={index}>
                                                 <td>{lift.date}</td>
                                                 <td>{lift.front}</td>
@@ -205,7 +205,7 @@ export default function Home() {
                                                 <td>{capitalize(lift.type)}</td>
                                                 <td>{lift.location}</td>
                                                 <td>
-                                                    <button value={index} onClick={() => handleDeleteLift}>🚽</button>
+                                                    <button value={index} onClick={() =>handleDeleteLift}>🚽</button>
                                                 </td>
                                             </tr>
                                         )}
