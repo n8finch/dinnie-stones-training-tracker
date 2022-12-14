@@ -27,10 +27,12 @@ export default function Home() {
     const [dttLifts, setDttLifts] = useState<object[]>([]);
 
     useEffect(() => {
-        const ls: string = localStorage.getItem('dttLifts') || '';
-        const items = JSON.parse(ls);
-        if (items) {
-            setDttLifts(items);
+        const ls: string | null = localStorage.getItem('dttLifts') || null;
+        if ( ls ) {
+            const items = JSON.parse(ls);
+            if (items) {
+                setDttLifts(items);
+            }
         }
     }, []);
 
