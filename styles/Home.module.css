@@ -137,4 +137,12 @@
   .logo img {
     filter: invert(1);
   }
+
+  .liftFill {
+    background-color: rgb(7, 56, 7);
+  }
+
+  .carryFill {
+    background-color: rgb(94, 17, 14);
+  }
 }

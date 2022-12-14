@@ -16,15 +16,15 @@ a {
 }
 
 table thead {
-    font-size: 1.1rem;
-    font-weight: 400;
+  font-size: 1.1rem;
+  font-weight: 400;
 }
 
 table td {
-    border: 1px solid #ccc;
-    text-align: center;
-    min-width: 60px;
-    padding: 5px;
+  border: 1px solid #ccc;
+  text-align: center;
+  min-width: 60px;
+  padding: 5px;
 }
 
 @media (prefers-color-scheme: dark) {
