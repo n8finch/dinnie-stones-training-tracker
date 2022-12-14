@@ -100,19 +100,19 @@ export default function Home() {
         // console.log(result.data)
     }
 
-    const getWeightFillClass = (weight: string, side:string ) : string => {
+    const getWeightFillClass = (weight: number, side:string ) : string => {
         let className = 'noFill';
-        if( maxLiftFront >= parseInt(weight) && 'front' === side ) {
+        if( maxLiftFront >= weight && 'front' === side ) {
             className = 'liftFill'
         }
-        if( maxLiftBack >= parseInt(weight ) && 'back' === side ) {
+        if( maxLiftBack >= weight && 'back' === side ) {
             className = 'liftFill'
         }
         // Override if necessary.
-        if( maxCarryFront >= parseInt(weight) && 'front' === side ) {
+        if( maxCarryFront >= weight&& 'front' === side ) {
             className = 'carryFill'
         }
-        if( maxCarryBack >= parseInt(weight ) && 'back' === side ) {
+        if( maxCarryBack >= weight && 'back' === side ) {
             className = 'carryFill'
         }
 
@@ -205,7 +205,7 @@ export default function Home() {
                                                 <td>{capitalize(lift.type)}</td>
                                                 <td>{lift.location}</td>
                                                 <td>
-                                                    <button value={index} onClick={handleDeleteLift}>🚽</button>
+                                                    <button value={index} onClick={() => handleDeleteLift}>🚽</button>
                                                 </td>
                                             </tr>
                                         )}
