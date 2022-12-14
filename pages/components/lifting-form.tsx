@@ -1,6 +1,10 @@
 import styles from '../../styles/Home.module.css'
 
-export default function LiftingForm({handleSubmit}) {
+interface LiftingForm {
+    handleSubmit: React.FormEventHandler<HTMLFormElement>;
+}
+
+const LiftingForm : React.FC<LiftingForm>  = ({handleSubmit}) => {
     return (
         // We pass the event to the handleSubmit() function on submit.
         <form className={styles.liftForm} onSubmit={handleSubmit}>
@@ -18,3 +22,5 @@ export default function LiftingForm({handleSubmit}) {
         </form>
     )
 }
+
+export default LiftingForm;

@@ -194,7 +194,7 @@ export const STONE_WEIGHTS = [
 ]
 
 
-const download = function (data) {
+const download = function (data: any) {
  
     // Creating a Blob for having a csv file format
     // and passing the data with type
@@ -217,7 +217,7 @@ const download = function (data) {
     a.click()
 }
  
-const csvmaker = function (data) {
+const csvmaker = function (data: any) {
  
     // Empty array for storing the values
     let csvRows = [];

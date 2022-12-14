@@ -12,6 +12,14 @@ import {
 } from './functions'
 import { getLiftsCSV } from './data'
 
+interface Lift {
+    date: string;
+    front: number;
+    back: number;
+    reps: number;
+    type: string;
+    location: string;
+}
 
 export default function Home() {
     const loggedIn: boolean = true;
@@ -19,7 +27,8 @@ export default function Home() {
     const [dttLifts, setDttLifts] = useState([]);
 
     useEffect(() => {
-        const items = JSON.parse(localStorage.getItem('dttLifts'));
+        const ls: string = localStorage.getItem('dttLifts') || '';
+        const items = JSON.parse(ls);
         if (items) {
             setDttLifts(items);
         }
@@ -30,20 +39,20 @@ export default function Home() {
     let maxCarryFront: number = 0;
     let maxCarryBack: number = 0;
 
-    for( const lift of dttLifts ) {
+    for( let lift of dttLifts as Lift[]) {
         if('carry' === lift.type) {
-            maxCarryFront = (parseInt(lift.front) > maxCarryFront) ? lift.front : maxCarryFront ;
-            maxCarryBack = (parseInt(lift.back) > maxCarryBack) ? lift.back : maxCarryBack;
+            maxCarryFront = (lift.front > maxCarryFront) ? lift.front : maxCarryFront ;
+            maxCarryBack = (lift.back > maxCarryBack) ? lift.back : maxCarryBack;
         }
 
         if('lift' === lift.type) {
-            maxLiftFront = (parseInt(lift.front) > maxLiftFront) ? lift.front : maxLiftFront ;
-            maxLiftBack = (parseInt(lift.back) > maxLiftBack) ? lift.back : maxLiftBack;
+            maxLiftFront = (lift.front > maxLiftFront) ? lift.front : maxLiftFront ;
+            maxLiftBack = (lift.back > maxLiftBack) ? lift.back : maxLiftBack;
         }
     }
 
     // Handles the submit event on form submit.
-    const handleSubmit = async (event: object) => {
+    const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         // Stop the form from submitting and refreshing the page.
         event.preventDefault()
 
