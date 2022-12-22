@@ -141,13 +141,13 @@ export default function Home() {
     return (
         <div className={styles.container}>
             <Head>
-                <title>🪨 Dinnie Training Tracker</title>
+                <title>🪨 Dinnie Stone Training Tracker</title>
                 <meta name="description" content="🪨 Dinnie Training Tracker" />
                 <link rel="icon" href="/stone.svg" />
             </Head>
 
             <main className={styles.main}>
-                <h1 className={styles.title}>🪨 Dinnie Training Tracker</h1>
+                <h1 className={styles.title}>🪨 Dinnie Stone 🪨<br/><small>Training Tracker</small></h1>
                 <p className={styles.description}>Log in to store your lifts...</p>
 
                 <div className={styles.grid}>
@@ -172,7 +172,7 @@ export default function Home() {
                             </tbody>
                         </table>
                     </div>
-                    <div id="lifts-grid">
+                    <div id="lifts-grid" className={styles.liftsGrid}>
                         <p>Record in pounds (lbs) or kilograms (kg)</p>
                         <div>
                             <button onClick={handleDownload}>Download all lifts.</button>

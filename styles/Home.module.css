@@ -50,14 +50,18 @@
     display: flex;
 }
 
-.liftForm input {
+.liftForm input,
+.liftForm select,
+.liftForm button {
     text-align: center;
-    max-width: 64px;
-    margin-right: 4px;
+    max-width: 80px;
+    min-width: 72px;
+    margin: 8px 4px 8px 0;
+    padding: 6px
 }
 
 .liftForm .liftDate {
-    max-width: 120px;
+    min-width: 120px;
 }
 
 .liftFill {
@@ -120,9 +124,16 @@
 }
 
 @media (max-width: 600px) {
+    .title {
+        font-size: 2em;
+    }
+
   .grid {
-    width: 100%;
-    flex-direction: column;
+    grid-template-columns: 1fr;
+  }
+
+  .liftsGrid {
+    overflow: scroll;
   }
 }
 
