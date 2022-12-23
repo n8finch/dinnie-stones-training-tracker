@@ -10,11 +10,6 @@
       "StackName": "amplify-dinnietrainingtrack-dev-140635",
       "StackId": "arn:aws:cloudformation:us-east-1:313273259154:stack/amplify-dinnietrainingtrack-dev-140635/23e58cb0-8234-11ed-b839-0ef508b183fd",
       "AmplifyAppId": "d2jl388k0xmkz3"
-    },
-    "categories": {
-      "auth": {
-        "dinnietrainingtrack590d0443": {}
-      }
     }
   }
 }
