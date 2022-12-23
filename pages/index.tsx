@@ -12,6 +12,11 @@ import {
 } from '../helpers/functions'
 import { getLiftsCSV } from '../helpers/data'
 
+import { Amplify } from 'aws-amplify';
+import awsExports from '../src/aws-exports'
+Amplify.configure(awsExports);
+
+
 interface Lift {
     date: string;
     front: string;
