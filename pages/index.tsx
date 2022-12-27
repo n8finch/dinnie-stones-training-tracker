@@ -3,6 +3,7 @@ import Head from 'next/head'
 import styles from '../styles/Home.module.css'
 import Footer from './components/footer'
 import LiftingForm from './components/lifting-form'
+import Login from './components/login'
 import { STONE_WEIGHTS } from '../helpers/data'
 import {
     handleTotal,
@@ -149,7 +150,9 @@ export default function Home() {
 
             <main className={styles.main}>
                 <h1 className={styles.title}>🪨 Dinnie Stone 🪨<br/><small>Training Tracker</small></h1>
-                <p className={styles.description}>Log in to store your lifts...</p>
+                <p className={styles.description}>
+                    <Login/>
+                </p>
 
                 <div className={styles.grid}>
                     <div id="weigths-grid">
