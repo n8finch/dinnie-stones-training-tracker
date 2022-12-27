@@ -9,7 +9,7 @@ import awsConfig from '../src/aws-exports'
 
 Amplify.configure(awsConfig);
 
-export default function PrivacyPolicy() {
+export default function Login() {
     const [user, setUser] = useState(null);
     const [customState, setCustomState] = useState(null);
   
@@ -48,6 +48,7 @@ export default function PrivacyPolicy() {
                 <button onClick={() => Auth.federatedSignIn({provider: CognitoHostedUIIdentityProvider.Google })}>Open Google</button>
                 <button onClick={() => Auth.signOut()}>Sign Out</button>
                 <div>Hello {user && user.getUsername()}</div>
+                <div>Hello {console.log(user)}</div>
             </div>
             <Footer />
         </div>
