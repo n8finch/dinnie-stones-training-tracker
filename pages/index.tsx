@@ -150,9 +150,9 @@ export default function Home() {
 
             <main className={styles.main}>
                 <h1 className={styles.title}>🪨 Dinnie Stone 🪨<br/><small>Training Tracker</small></h1>
-                <p className={styles.description}>
+                <div className={styles.description}>
                     <Login/>
-                </p>
+                </div>
 
                 <div className={styles.grid}>
                     <div id="weigths-grid">

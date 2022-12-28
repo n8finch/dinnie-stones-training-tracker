@@ -3,15 +3,16 @@ import React from 'react';
 import StyledFirebaseAuth from './StyledFirebaseAuth';
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/auth'
+
 // Import the useAuthStateHook
-import { useAuthState } from "react-firebase-hooks/auth";
+import { getAuth, signInWithEmailAndPassword, signOut } from 'firebase/auth';
+import { useAuthState } from 'react-firebase-hooks/auth';
 
 import clientCredentials from '../../firebase/clientApp';
 
-
 export default function Login() {
     // Init firebase app.
-    firebase.initializeApp(clientCredentials);
+    const firebaseApp = firebase.initializeApp(clientCredentials);
 
     // Configure FirebaseUI.
     const uiConfig = {
@@ -26,22 +27,27 @@ export default function Login() {
         ],
     };
 
+    const auth = getAuth(firebaseApp);
     // Destructure user, loading, and error out of the hook.  
-    const [user, loading, error] = useAuthState(firebase.auth());
-    // console.log the current user and loading status
-    console.log("Loading:", loading, "|", "Current user:", user);
+    const [user, loading, error] = useAuthState(auth);
 
+    const logout = () => {
+        signOut(auth);
+    };
 
     return (
         <div className="Login">
             {user && (
-                <h2>Hi {user?.displayName}</h2>
+                <>
+                    <h2>Hi {user?.displayName}</h2>
+                    <button onClick={logout}>Sign out</button>
+                </>
             )}
             {!user && (
-                <div>
+                <>
                     Please sign in:
                     <StyledFirebaseAuth uiConfig={uiConfig} firebaseAuth={firebase.auth()} />
-                </div>
+                </>
             )}
         </div>
     )
