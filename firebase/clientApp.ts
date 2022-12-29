@@ -1,3 +1,7 @@
+import { initializeApp } from 'firebase/app';
+import "firebase/auth";
+import "firebase/firestore";
+
 // Your web app's Firebase configuration
 const clientCredentials = {
     apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
@@ -9,4 +13,6 @@ const clientCredentials = {
     measurementId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
 };
 
-export default clientCredentials;
+const firebaseApp = initializeApp(clientCredentials);
+
+export default firebaseApp;
