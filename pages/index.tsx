@@ -13,6 +13,14 @@ import {
 import { getLiftsCSV } from '../helpers/data'
 
 
+import firebase from 'firebase/compat/app';
+import 'firebase/compat/auth'
+import firebaseApp from '../firebase/clientApp';
+import { getAuth, signOut } from "firebase/auth";
+const auth = getAuth(firebaseApp);
+import { useAuthState } from "react-firebase-hooks/auth";
+import Link from 'next/link'
+
 interface Lift {
     date: string;
     front: string;
@@ -29,7 +37,7 @@ export default function Home() {
 
     useEffect(() => {
         const ls: string | null = localStorage.getItem('dttLifts') || null;
-        if ( ls ) {
+        if (ls) {
             const items = JSON.parse(ls);
             if (items) {
                 setDttLifts(items);
@@ -42,14 +50,14 @@ export default function Home() {
     let maxCarryFront: number = 0;
     let maxCarryBack: number = 0;
 
-    for( let lift of dttLifts as Lift[]) {
-        if('carry' === lift.type) {
-            maxCarryFront = (parseInt(lift.front) > maxCarryFront) ? parseInt(lift.front) : maxCarryFront ;
+    for (let lift of dttLifts as Lift[]) {
+        if ('carry' === lift.type) {
+            maxCarryFront = (parseInt(lift.front) > maxCarryFront) ? parseInt(lift.front) : maxCarryFront;
             maxCarryBack = (parseInt(lift.back) > maxCarryBack) ? parseInt(lift.back) : maxCarryBack;
         }
 
-        if('lift' === lift.type) {
-            maxLiftFront = (parseInt(lift.front) > maxLiftFront) ? parseInt(lift.front) : maxLiftFront ;
+        if ('lift' === lift.type) {
+            maxLiftFront = (parseInt(lift.front) > maxLiftFront) ? parseInt(lift.front) : maxLiftFront;
             maxLiftBack = (parseInt(lift.back) > maxLiftBack) ? parseInt(lift.back) : maxLiftBack;
         }
     }
@@ -69,9 +77,9 @@ export default function Home() {
             location: event.currentTarget.location.value || '',
         }
 
-        localStorage.setItem('dttLifts', JSON.stringify([ data, ...dttLifts ]));
+        localStorage.setItem('dttLifts', JSON.stringify([data, ...dttLifts]));
 
-        setDttLifts([ data, ...dttLifts ]);
+        setDttLifts([data, ...dttLifts]);
 
         clearLiftingForm();
 
@@ -103,19 +111,19 @@ export default function Home() {
         // console.log(result.data)
     }
 
-    const getWeightFillClass = (weight: number, side:string ) : string => {
+    const getWeightFillClass = (weight: number, side: string): string => {
         let className = 'noFill';
-        if( maxLiftFront >= weight && 'front' === side ) {
+        if (maxLiftFront >= weight && 'front' === side) {
             className = 'liftFill'
         }
-        if( maxLiftBack >= weight && 'back' === side ) {
+        if (maxLiftBack >= weight && 'back' === side) {
             className = 'liftFill'
         }
         // Override if necessary.
-        if( maxCarryFront >= weight&& 'front' === side ) {
+        if (maxCarryFront >= weight && 'front' === side) {
             className = 'carryFill'
         }
-        if( maxCarryBack >= weight && 'back' === side ) {
+        if (maxCarryBack >= weight && 'back' === side) {
             className = 'carryFill'
         }
 
@@ -126,18 +134,26 @@ export default function Home() {
     const handleDeleteLift = (e: React.FormEvent<HTMLFormElement>) => {
         const remove = e.target as HTMLInputElement
 
-        const remainingLifts = dttLifts.filter( (lift, index) => {
-                return parseInt(remove.value) !== index
-            }
+        const remainingLifts = dttLifts.filter((lift, index) => {
+            return parseInt(remove.value) !== index
+        }
         )
-        localStorage.setItem('dttLifts', JSON.stringify([ ...remainingLifts ]));
+        localStorage.setItem('dttLifts', JSON.stringify([...remainingLifts]));
 
-        setDttLifts( remainingLifts );
+        setDttLifts(remainingLifts);
     }
 
     const handleDownload = () => {
         getLiftsCSV(dttLifts)
     }
+
+    const logout = () => {
+        signOut(auth);
+    };
+
+    const [user, loading, error] = useAuthState(auth);
+    // console.log the current user and loading status
+    console.log("Loading:", loading, "|", "Current user:", user);
 
     return (
         <div className={styles.container}>
@@ -148,9 +164,19 @@ export default function Home() {
             </Head>
 
             <main className={styles.main}>
-                <h1 className={styles.title}>🪨 Dinnie Stone 🪨<br/><small>Training Tracker</small></h1>
+                <h1 className={styles.title}>🪨 Dinnie Stone 🪨<br /><small>Training Tracker</small></h1>
                 <div className={styles.description}>
-                    login here?
+                    {user && (
+                        <>
+                            <h2>Hi {user?.displayName}</h2>
+                            <button onClick={logout}>Sign out</button>
+                        </>
+                    )}
+                    {!user && (
+                        <>
+                            Please sign in <Link href="/auth">here</Link>.
+                        </>
+                    )}
                 </div>
 
                 <div className={styles.grid}>
@@ -165,7 +191,7 @@ export default function Home() {
                                 </tr>
                             </thead>
                             <tbody>
-                                {STONE_WEIGHTS.map((weight, index) => 
+                                {STONE_WEIGHTS.map((weight, index) =>
                                     <tr key={index}>
                                         <td className={`${styles[getWeightFillClass(weight.front, 'front')]}`}>{weight.front}</td>
                                         <td className={`${styles[getWeightFillClass(weight.back, 'back')]}`}>{weight.back}</td>
@@ -181,7 +207,7 @@ export default function Home() {
                             <button onClick={handleDownload}>Download all lifts.</button>
                         </div>
                         <div>
-                            <LiftingForm handleSubmit={handleSubmit}/>
+                            <LiftingForm handleSubmit={handleSubmit} />
                         </div>
                         <div>
                             Previous Lifts:
@@ -199,21 +225,21 @@ export default function Home() {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                        {dttLifts.map((lift:any , index) => 
-                                            <tr key={index}>
-                                                <td>{lift.date}</td>
-                                                <td>{lift.front}</td>
-                                                <td>{lift.back}</td>
-                                                <td>{handleTotal(lift.front, lift.back)}</td>
-                                                <td>{lift.reps}</td>
-                                                <td>{handleE1RM(lift.front, lift.back, lift.reps)}</td>
-                                                <td>{capitalize(lift.type)}</td>
-                                                <td>{lift.location}</td>
-                                                <td>
-                                                    <button value={index} onClick={() =>handleDeleteLift}>🚽</button>
-                                                </td>
-                                            </tr>
-                                        )}
+                                    {dttLifts.map((lift: any, index) =>
+                                        <tr key={index}>
+                                            <td>{lift.date}</td>
+                                            <td>{lift.front}</td>
+                                            <td>{lift.back}</td>
+                                            <td>{handleTotal(lift.front, lift.back)}</td>
+                                            <td>{lift.reps}</td>
+                                            <td>{handleE1RM(lift.front, lift.back, lift.reps)}</td>
+                                            <td>{capitalize(lift.type)}</td>
+                                            <td>{lift.location}</td>
+                                            <td>
+                                                <button value={index} onClick={() => handleDeleteLift}>🚽</button>
+                                            </td>
+                                        </tr>
+                                    )}
                                 </tbody>
                             </table>
                         </div>
