@@ -8,7 +8,6 @@ import { getAuth } from "firebase/auth";
 const auth = getAuth(firebaseApp);
 import { useAuthState } from "react-firebase-hooks/auth";
 
-
 // Configure FirebaseUI.
 const uiConfig = {
     // Redirect to / after sign in is successful. Alternatively you can provide a callbacks.signInSuccess function.
@@ -22,13 +21,12 @@ const uiConfig = {
 };
 
 function SignInScreen() {
-    const [user, loading, error] = useAuthState(auth);
     // console.log the current user and loading status
-    console.log("Loading:", loading, "|", "Current user:", user);
+    // const [user, loading, error] = useAuthState(auth);
+    // console.log("Loading:", loading, "|", "Current user:", user);
 
     return (
         <div>
-            <h1>Pineapple Login</h1>
             <p>Please sign-in:</p>
             <StyledFirebaseAuth uiConfig={uiConfig} firebaseAuth={auth} />
         </div>

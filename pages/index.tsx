@@ -168,13 +168,8 @@ export default function Home() {
                 <div className={styles.description}>
                     {user && (
                         <>
-                            <h2>Hi {user?.displayName}</h2>
+                            <h2>Hey {user?.displayName} 👋</h2>
                             <button onClick={logout}>Sign out</button>
-                        </>
-                    )}
-                    {!user && (
-                        <>
-                            Please sign in <Link href="/auth">here</Link>.
                         </>
                     )}
                 </div>
@@ -201,49 +196,56 @@ export default function Home() {
                             </tbody>
                         </table>
                     </div>
-                    <div id="lifts-grid" className={styles.liftsGrid}>
-                        <p>Record in pounds (lbs) or kilograms (kg)</p>
-                        <div>
-                            <button onClick={handleDownload}>Download all lifts.</button>
-                        </div>
-                        <div>
-                            <LiftingForm handleSubmit={handleSubmit} />
-                        </div>
-                        <div>
-                            Previous Lifts:
-                            <table>
-                                <thead>
-                                    <tr>
-                                        <td>Date</td>
-                                        <td>Front</td>
-                                        <td>Back</td>
-                                        <td>Total</td>
-                                        <td>Reps</td>
-                                        <td>E1RM</td>
-                                        <td>Type</td>
-                                        <td>Location</td>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {dttLifts.map((lift: any, index) =>
-                                        <tr key={index}>
-                                            <td>{lift.date}</td>
-                                            <td>{lift.front}</td>
-                                            <td>{lift.back}</td>
-                                            <td>{handleTotal(lift.front, lift.back)}</td>
-                                            <td>{lift.reps}</td>
-                                            <td>{handleE1RM(lift.front, lift.back, lift.reps)}</td>
-                                            <td>{capitalize(lift.type)}</td>
-                                            <td>{lift.location}</td>
-                                            <td>
-                                                <button value={index} onClick={() => handleDeleteLift}>🚽</button>
-                                            </td>
+                    {user && (
+                        <div id="lifts-grid" className={styles.liftsGrid}>
+                            <p>Record in pounds (lbs) or kilograms (kg)</p>
+                            <div>
+                                <button onClick={handleDownload}>Download all lifts.</button>
+                            </div>
+                            <div>
+                                <LiftingForm handleSubmit={handleSubmit} />
+                            </div>
+                            <div>
+                                Previous Lifts:
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <td>Date</td>
+                                            <td>Front</td>
+                                            <td>Back</td>
+                                            <td>Total</td>
+                                            <td>Reps</td>
+                                            <td>E1RM</td>
+                                            <td>Type</td>
+                                            <td>Location</td>
                                         </tr>
-                                    )}
-                                </tbody>
-                            </table>
+                                    </thead>
+                                    <tbody>
+                                        {dttLifts.map((lift: any, index) =>
+                                            <tr key={index}>
+                                                <td>{lift.date}</td>
+                                                <td>{lift.front}</td>
+                                                <td>{lift.back}</td>
+                                                <td>{handleTotal(lift.front, lift.back)}</td>
+                                                <td>{lift.reps}</td>
+                                                <td>{handleE1RM(lift.front, lift.back, lift.reps)}</td>
+                                                <td>{capitalize(lift.type)}</td>
+                                                <td>{lift.location}</td>
+                                                <td>
+                                                    <button value={index} onClick={() => handleDeleteLift}>🚽</button>
+                                                </td>
+                                            </tr>
+                                        )}
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
-                    </div>
+                    )}
+                    {!user && (
+                        <div>
+                            <p>Please sign in <Link href="/auth">here</Link> to record your lifts.</p>
+                        </div>
+                    )}
                 </div>
             </main>
 
